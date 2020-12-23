@@ -1,7 +1,10 @@
-import numpy as np
 import typing as t
 
-from . import caixinha, checagens
+import numpy as np
+
+from . import caixinha
+from . import checagens
+from . import operadores
 
 
 # noinspection SpellCheckingInspection
@@ -31,7 +34,7 @@ class KMeans:
     @centroides.setter
     def centroides(self, novos_centroides):
         if novos_centroides is None:
-            novos_centroides = caixinha.gera_centroides(
+            novos_centroides = operadores.gera_centroides(
                 dados=self.dados, numero_de_centroides=self.numero_de_centroides
             )
             self.centroides_fixos = novos_centroides.shape[0] * [False]
@@ -39,13 +42,14 @@ class KMeans:
             novos_centroides = checagens.verifica_tipo(centroides=(novos_centroides, "atributo", np.ndarray))
 
             checagens.verifica_ndim(centroides=(novos_centroides, "atributo", 2))
-            checagens.verifica_comprimento_menor_ou_igual_a(centroides=(novos_centroides, "atributo"),
-                                                            dados=(self.dados, "atributo"))
+            checagens.verifica_comprimento_menor_ou_igual_a(
+                centroides=(novos_centroides, "atributo"), dados=(self.dados, "atributo")
+            )
 
             centroides_faltantes = self.numero_de_centroides - novos_centroides.shape[0]
 
             if centroides_faltantes > 0:
-                centroides_complementares = caixinha.gera_centroides(
+                centroides_complementares = operadores.gera_centroides(
                     dados=self.dados, numero_de_centroides=centroides_faltantes
                 )
                 self.centroides_fixos = novos_centroides.shape[0] * [True] + centroides_faltantes * [False]
@@ -68,8 +72,9 @@ class KMeans:
 
         checagens.verifica_ndim(centroides_fixos=(novos_centroides_fixos, "atributo", 1))
         checagens.verifica_dtype(centroides_fixos=(novos_centroides_fixos, "atributo", np.bool_))
-        checagens.verifica_comprimento_igual_a(centroides_fixos=(novos_centroides_fixos, "atributo"),
-                                               centroides=(self.centroides, "atributo"))
+        checagens.verifica_comprimento_igual_a(
+            centroides_fixos=(novos_centroides_fixos, "atributo"), centroides=(self.centroides, "atributo")
+        )
 
         self.__centroides_fixos = novos_centroides_fixos
 
@@ -87,49 +92,14 @@ class KMeans:
 
     @property
     def rotulos(self):
-        return caixinha.rotula_dados(dados=self.dados, centroides=self.centroides)
+        return operadores.rotula_dados(dados=self.dados, centroides=self.centroides)
 
-    def clusteriza2(self, *, dados, centroides_fixos):
+    def clusteriza_dados(self, *, dados, centroides_fixos):
         self.dados = dados
         self.centroides = centroides_fixos
 
-        iteracao = 0
-        while True:
-            print(f"Iteração {iteracao}")
-
-            centroides_centralizados = caixinha.centraliza_centroides(
-                dados=self.dados,
-                centroides=self.centroides,
-                centroides_fixos=self.centroides_fixos,
-                rotulos=self.rotulos
-            )
-
-            if self.deve_continuar(centroides_centralizados) is False:
-                self.centroides = centroides_centralizados
-                break
-            else:
-                self.centroides = centroides_centralizados
-                iteracao += 1
+        self.centroides = operadores.roda_k_means(
+            dados=dados, centroides=self.centroides, centroides_fixos=self.centroides_fixos
+        )
 
         return self.centroides
-
-    def clusteriza(self, *, dados, centroides_fixos):
-        self.dados = dados
-        self.centroides = centroides_fixos
-
-        self.centroides = caixinha.roda_k_means(dados, self.centroides, self.centroides_fixos)
-
-        return self.centroides
-
-    def deve_continuar(self, novos_centroides):
-        novos_centroides = checagens.verifica_tipo(novos_centroides=(novos_centroides, "parâmetro", np.ndarray))
-
-        checagens.verifica_ndim(novos_centroides=(novos_centroides, "parâmetro", 2))
-        checagens.verifica_comprimento_igual_a(novos_centroides=(novos_centroides, "parâmetro"),
-                                               centroides=(self.centroides, "atributo"))
-
-        ha_igualdade = caixinha.verifica_igualdade_aproximada_entre_grupos(grupo_um=self.centroides,
-                                                                           grupo_dois=novos_centroides)
-        deve_continuar = not ha_igualdade
-
-        return deve_continuar

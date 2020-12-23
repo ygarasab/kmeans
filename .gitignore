@@ -2,3 +2,5 @@
 .idea/
 
 código/kmeans/__pycache__/
+
+código/__pycache__/

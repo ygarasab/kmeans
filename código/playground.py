@@ -1,11 +1,10 @@
 import numpy as np
 import pandas as pd
 import seaborn as sns
-
-from kmeans import KMeans
-from kmeans.caixinha import rotula_dados
 from matplotlib import pyplot as plt
-from time import sleep
+
+from código.kmeans.operadores import rotula_dados
+from kmeans import KMeans
 
 
 # noinspection SpellCheckingInspection
@@ -14,12 +13,13 @@ def gerar_grafico_de_dispersao(centroides, dados):
 
     figura, eixo = plt.subplots(1, 1)
 
-    sns.scatterplot(x=dados[:, 0], y=dados[:, 1],
-                    palette=sns.color_palette("bright", np.unique(rotulos).size), hue=rotulos, ax=eixo)
+    sns.scatterplot(
+        x=dados[:, 0], y=dados[:, 1], palette=sns.color_palette("bright", np.unique(rotulos).size), hue=rotulos, ax=eixo
+    )
 
-    eixo.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+    eixo.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.0)
 
-    eixo.scatter(x=centroides[:, 0], y=centroides[:, 1], c='k', marker='s')
+    eixo.scatter(x=centroides[:, 0], y=centroides[:, 1], c="k", marker="s")
 
     return figura, eixo
 
@@ -48,10 +48,10 @@ aeroporto = dados.loc["Aeroporto", ["Latitude", "Longitude"]].to_numpy().reshape
 bairros = dados.drop("Aeroporto").to_numpy()
 
 while True:
-    print("Começou:")
     k_means = KMeans(numero_de_centroides=4)
     # noinspection SpellCheckingInspection
-    centroides = k_means.clusteriza(dados=bairros, centroides_fixos=aeroporto)
+    centroides = k_means.clusteriza_dados(dados=bairros, centroides_fixos=aeroporto)
+    # noinspection SpellCheckingInspection
     figura, eixo = gerar_grafico_de_dispersao(centroides, bairros)
 
     eixo.scatter(aeroporto[0, 0], aeroporto[0, 1], s=150, c="indigo")
