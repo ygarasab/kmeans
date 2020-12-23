@@ -148,7 +148,7 @@ def verifica_igualdade_aproximada_entre_grupos(*, grupo_um, grupo_dois, casas_de
 @nb.jit(nopython=True)
 def _verifica_igualdade_aproximada_entre_grupos(grupo_um, grupo_dois, casas_decimais):
     grupo_um, grupo_dois = _arredonda_matriz(grupo_um, casas_decimais), _arredonda_matriz(grupo_dois, casas_decimais)
-    ha_igualdade = (grupo_um == grupo_dois).all()
+    ha_igualdade = bool((grupo_um == grupo_dois).all())
 
     return ha_igualdade
 
@@ -208,9 +208,9 @@ def centraliza_centroides(*, dados, centroides, centroides_fixos, rotulos):
 # noinspection SpellCheckingInspection
 @nb.jit(nopython=True, parallel=True)
 def _centraliza_centroides(dados, centroides, centroides_fixos, rotulos):
-    rotulos_unicos = np.unique(rotulos)[np.logical_not(centroides_fixos)]
-    numero_de_rotulos = rotulos_unicos.shape[0]
     numero_de_centroides, dimensionalidade = centroides.shape
+    rotulos_unicos = np.arange(numero_de_centroides)[np.logical_not(centroides_fixos)]
+    numero_de_rotulos = rotulos_unicos.shape[0]
     centroides_centralizados = np.empty((numero_de_centroides, dimensionalidade))
     centroides_centralizados[centroides_fixos, :] = centroides[centroides_fixos, :]
 
