@@ -1,13 +1,14 @@
 import typing as t
 
 import numpy as np
+import pandas as pd
 
 from . import checagens
 from . import operadores
 
 
 # noinspection SpellCheckingInspection
-class KMeans:
+class KMedias:
     def __init__(self, *, numero_de_centroides):
         self.numero_de_centroides = numero_de_centroides
         self.__centroides, self.__centroides_fixos, self.__dados = None, None, None
@@ -93,7 +94,24 @@ class KMeans:
     def rotulos(self):
         return operadores.rotula_dados(dados=self.dados, centroides=self.centroides)
 
-    def clusteriza_dados(self, *, dados, centroides_fixos):
+    def clusteriza_dados(self, *, dados, centroides_fixos, numero_de_execucoes=1000):
+        melhor_solucao, erro_da_melhor_solucao = None, None
+        data_frame = pd.DataFrame(index=range(numero_de_execucoes), columns=["Solução", "Erro"])
+
+        for iteracao in range(numero_de_execucoes):
+            print(f"Execução {iteracao}...", end="\r")
+
+            solucao = self._clusteriza_dados(dados=dados, centroides_fixos=centroides_fixos)
+            erro_da_solucao = operadores.calcula_erro_da_solucao(dados, solucao)
+
+            data_frame.iloc[iteracao, :] = np.array([solucao, erro_da_solucao], dtype=object)
+
+            if melhor_solucao is None or erro_da_solucao < erro_da_melhor_solucao:
+                melhor_solucao, erro_da_melhor_solucao = solucao, erro_da_solucao
+
+        return data_frame.infer_objects()
+
+    def _clusteriza_dados(self, *, dados, centroides_fixos):
         self.dados = dados
         self.centroides = centroides_fixos
 

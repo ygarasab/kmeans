@@ -3,8 +3,8 @@ import pandas as pd
 import seaborn as sns
 from matplotlib import pyplot as plt
 
-from código.kmeans.operadores import rotula_dados
-from kmeans import KMeans
+from código.kmedias.operadores import rotula_dados
+from kmedias import KMedias
 
 
 # noinspection SpellCheckingInspection
@@ -47,12 +47,13 @@ aeroporto = dados.loc["Aeroporto", ["Latitude", "Longitude"]].to_numpy().reshape
 # noinspection SpellCheckingInspection
 bairros = dados.drop("Aeroporto").to_numpy()
 
-while True:
-    k_means = KMeans(numero_de_centroides=4)
-    # noinspection SpellCheckingInspection
-    centroides = k_means.clusteriza_dados(dados=bairros, centroides_fixos=aeroporto)
-    # noinspection SpellCheckingInspection
-    figura, eixo = gerar_grafico_de_dispersao(centroides, bairros)
+k_medias = KMedias(numero_de_centroides=4)
+# noinspection SpellCheckingInspection
+solucoes = k_medias.clusteriza_dados(dados=bairros, centroides_fixos=aeroporto).sort_values(by="Erro")
+# noinspection SpellCheckingInspection
+centroides = solucoes.iloc[0, 0]
+# noinspection SpellCheckingInspection
+figura, eixo = gerar_grafico_de_dispersao(centroides, bairros)
 
-    eixo.scatter(aeroporto[0, 0], aeroporto[0, 1], s=150, c="indigo")
-    figura.show()
+eixo.scatter(aeroporto[0, 0], aeroporto[0, 1], s=150, c="indigo")
+figura.show()

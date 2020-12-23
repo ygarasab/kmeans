@@ -18,36 +18,37 @@ def arredonda_matriz(matriz, casas_decimais):
 
 # noinspection SpellCheckingInspection
 @nb.jit(nopython=True, parallel=True)
-def calcula_distancia_entre_grupos(grupo_um, grupo_dois):
+def calcula_distancia_entre_grupos(grupo_um, grupo_dois, tira_raiz=True):
     comprimento_um, comprimento_dois = grupo_um.shape[0], grupo_dois.shape[0]
     distancias = np.empty(shape=(comprimento_um, comprimento_dois))
 
     for i_um in nb.prange(comprimento_um):
         for i_dois in nb.prange(comprimento_dois):
-            distancias[i_um, i_dois] = calcula_distancia_entre_observacoes(grupo_um[i_um, :], grupo_dois[i_dois, :])
+            distancias[i_um, i_dois] = calcula_distancia_entre_observacoes(
+                grupo_um[i_um, :], grupo_dois[i_dois, :], tira_raiz
+            )
 
     return distancias
 
 
 # noinspection SpellCheckingInspection
-
-
 @nb.jit(nopython=True, parallel=True)
-def calcula_distancia_entre_observacoes(vetor_um, vetor_dois):
+def calcula_distancia_entre_observacoes(vetor_um, vetor_dois, tira_raiz):
     comprimento = vetor_um.shape[0]
     diferencas = np.empty(shape=comprimento)
 
     for i in nb.prange(comprimento):
         diferencas[i] = np.square(vetor_um[i] - vetor_dois[i])
 
-    distancia = np.sqrt(np.sum(diferencas))
+    distancia = np.sum(diferencas)
+
+    if tira_raiz is True:
+        distancia = np.sqrt(distancia)
 
     return distancia
 
 
 # noinspection SpellCheckingInspection,PyUnresolvedReferences
-
-
 @nb.jit(nopython=True)
 def verifica_igualdade_aproximada_entre_grupos(grupo_um, grupo_dois, casas_decimais):
     grupo_um, grupo_dois = arredonda_matriz(grupo_um, casas_decimais), arredonda_matriz(grupo_dois, casas_decimais)
@@ -67,9 +68,9 @@ def centraliza_centroides(dados, centroides, centroides_fixos, rotulos):
 
     for r in nb.prange(numero_de_rotulos):
         rotulo = rotulos_unicos[r]
-        membros_do_cluster = np.where(rotulos == rotulo)[0]
-        cluster = dados[membros_do_cluster, :]
-        centroides_centralizados[rotulo, :] = tira_media_das_colunas(cluster)
+        membros_do_agrupamento = np.where(rotulos == rotulo)[0]
+        agrupamento = dados[membros_do_agrupamento, :]
+        centroides_centralizados[rotulo, :] = tira_media_das_colunas(agrupamento)
 
     return centroides_centralizados
 
