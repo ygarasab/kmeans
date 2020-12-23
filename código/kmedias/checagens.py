@@ -24,27 +24,6 @@ def verifica_comprimento_igual_a(**parametros):
 
 
 # noinspection SpellCheckingInspection
-def verifica_comprimento_maior_ou_igual_a(**parametros):
-    numero_de_parametros = len(parametros.keys())
-
-    if numero_de_parametros != 2:
-        raise ValueError(
-            f"Apenas um parâmetro pode ser passado para esta função. Foram recebidos " f"{numero_de_parametros}."
-        )
-
-    parametro, outro_parametro = parametros.keys()
-
-    valor, descricao = parametros[parametro]
-    outro_valor, outra_descricao = parametros[outro_parametro]
-
-    if outro_valor is not None and len(valor) < len(outro_valor):
-        raise ValueError(
-            f"O {descricao} {parametro} precisa ter um comprimento, no mínimo, igual ao {outra_descricao} "
-            f"{outro_parametro}."
-        )
-
-
-# noinspection SpellCheckingInspection
 def verifica_comprimento_menor_ou_igual_a(**parametros):
     numero_de_parametros = len(parametros.keys())
 
@@ -93,48 +72,6 @@ def verifica_dtype(**parametro_dict):
         )
     else:
         return valor
-
-
-# noinspection SpellCheckingInspection
-def verifica_maior_ou_igual_a(**parametros):
-    numero_de_parametros = len(parametros.keys())
-
-    if numero_de_parametros != 2:
-        raise ValueError(
-            f"Apenas um parâmetro pode ser passado para esta função. Foram recebidos " f"{numero_de_parametros}."
-        )
-
-    parametro, outro_parametro = parametros.keys()
-
-    valor, descricao = parametros[parametro]
-    outro_valor, outra_descricao = parametros[outro_parametro]
-
-    if outro_valor is not None and valor < outro_valor:
-        raise ValueError(
-            f"O {descricao} {parametro} precisa receber um valor, no mínimo, igual ao {outra_descricao} "
-            f"{outro_parametro}."
-        )
-
-
-# noinspection SpellCheckingInspection
-def verifica_menor_ou_igual_a(**parametros):
-    numero_de_parametros = len(parametros.keys())
-
-    if numero_de_parametros != 2:
-        raise ValueError(
-            f"Apenas um parâmetro pode ser passado para esta função. Foram recebidos " f"{numero_de_parametros}."
-        )
-
-    parametro, outro_parametro = parametros.keys()
-
-    valor, descricao = parametros[parametro]
-    outro_valor, outra_descricao = parametros[outro_parametro]
-
-    if outro_valor is not None and valor > outro_valor:
-        raise ValueError(
-            f"O {descricao} {parametro} precisa receber um valor, no máximo, igual ao {outra_descricao} "
-            f"{outro_parametro}."
-        )
 
 
 # noinspection SpellCheckingInspection
@@ -211,9 +148,3 @@ def verifica_tipo(**parametro_dict):
         raise TypeError(f"O {descricao} {parametro} precisa receber um objeto de classe {tipos} ou que herde dela.")
     else:
         return valor
-
-
-# noinspection SpellCheckingInspection
-def verifica_tipo_operador(operador, valor, tipo):
-    if not isinstance(valor, tipo):
-        raise TypeError(f"O operador '{operador}' precisa ser do tipo {tipo}.")
