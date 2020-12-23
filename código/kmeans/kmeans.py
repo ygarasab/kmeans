@@ -2,7 +2,6 @@ import typing as t
 
 import numpy as np
 
-from . import caixinha
 from . import checagens
 from . import operadores
 
