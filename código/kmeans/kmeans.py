@@ -48,8 +48,8 @@ class KMeans:
                 centroides_complementares = caixinha.gera_centroides(
                     dados=self.dados, numero_de_centroides=centroides_faltantes
                 )
-                novos_centroides = np.concatenate((novos_centroides, centroides_complementares))
                 self.centroides_fixos = novos_centroides.shape[0] * [True] + centroides_faltantes * [False]
+                novos_centroides = np.concatenate((novos_centroides, centroides_complementares), axis=0)
             elif centroides_faltantes < 0:
                 novos_centroides = novos_centroides[:centroides_faltantes]
                 self.centroides_fixos = novos_centroides.shape[0] * [False]
@@ -69,7 +69,7 @@ class KMeans:
         checagens.verifica_ndim(centroides_fixos=(novos_centroides_fixos, "atributo", 1))
         checagens.verifica_dtype(centroides_fixos=(novos_centroides_fixos, "atributo", np.bool_))
         checagens.verifica_comprimento_igual_a(centroides_fixos=(novos_centroides_fixos, "atributo"),
-                                               numero_de_centroides=(self.centroides, "atributo"))
+                                               centroides=(self.centroides, "atributo"))
 
         self.__centroides_fixos = novos_centroides_fixos
 
@@ -89,7 +89,7 @@ class KMeans:
     def rotulos(self):
         return caixinha.rotula_dados(dados=self.dados, centroides=self.centroides)
 
-    def clusteriza(self, *, dados, centroides_fixos):
+    def clusteriza2(self, *, dados, centroides_fixos):
         self.dados = dados
         self.centroides = centroides_fixos
 
@@ -110,6 +110,14 @@ class KMeans:
             else:
                 self.centroides = centroides_centralizados
                 iteracao += 1
+
+        return self.centroides
+
+    def clusteriza(self, *, dados, centroides_fixos):
+        self.dados = dados
+        self.centroides = centroides_fixos
+
+        self.centroides = caixinha.roda_k_means(dados, self.centroides, self.centroides_fixos)
 
         return self.centroides
 

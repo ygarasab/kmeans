@@ -16,7 +16,7 @@ def verifica_comprimento_igual_a(**parametros):
     outro_valor, outra_descricao = parametros[outro_parametro]
 
     if outro_valor is not None and len(valor) != len(outro_valor):
-        raise ValueError(f"O {descricao} {parametro} precisa receber um valor, no mínimo, igual ao {outra_descricao} "
+        raise ValueError(f"O {descricao} {parametro} precisa ter um comprimento igual ao {outra_descricao} "
                          f"{outro_parametro}.")
 
 
@@ -34,7 +34,7 @@ def verifica_comprimento_maior_ou_igual_a(**parametros):
     outro_valor, outra_descricao = parametros[outro_parametro]
 
     if outro_valor is not None and len(valor) < len(outro_valor):
-        raise ValueError(f"O {descricao} {parametro} precisa receber um valor, no mínimo, igual ao {outra_descricao} "
+        raise ValueError(f"O {descricao} {parametro} precisa ter um comprimento, no mínimo, igual ao {outra_descricao} "
                          f"{outro_parametro}.")
 
 
@@ -52,7 +52,7 @@ def verifica_comprimento_menor_ou_igual_a(**parametros):
     outro_valor, outra_descricao = parametros[outro_parametro]
 
     if outro_valor is not None and len(valor) > len(outro_valor):
-        raise ValueError(f"O comprimento do {descricao} {parametro} precisa ser, no máximo, igual ao {outra_descricao} "
+        raise ValueError(f"O {descricao} {parametro} precisa ter um comprimento, no máximo, igual ao {outra_descricao} "
                          f"{outro_parametro}.")
 
 

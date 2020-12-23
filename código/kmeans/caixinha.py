@@ -6,6 +6,26 @@ from . import checagens
 
 
 # noinspection SpellCheckingInspection
+@nb.jit(nopython=True)
+def roda_k_means(dados, centroides, centroides_fixos, casas_decimais=4):
+    iteracao = 0
+    while True:
+        print("Iteração", iteracao)
+
+        rotulos = _rotula_dados(dados, centroides)
+        centroides_centralizados = _centraliza_centroides(dados, centroides, centroides_fixos, rotulos)
+        ha_igualdade = _verifica_igualdade_aproximada_entre_grupos(centroides, centroides_centralizados, casas_decimais)
+        centroides = centroides_centralizados
+
+        if ha_igualdade is True:
+            break
+        else:
+            iteracao += 1
+
+    return centroides
+
+
+# noinspection SpellCheckingInspection
 def gera_centroides(*, dados, numero_de_centroides):
     dados = checagens.verifica_tipo(dados=(dados, "parâmetro", np.ndarray))
     numero_de_centroides = checagens.verifica_tipo(k=(numero_de_centroides, "parâmetro", t.SupportsInt))
@@ -76,7 +96,7 @@ def _calcula_distancia_entre_grupos(grupo_um, grupo_dois):
 
     for i_um in nb.prange(comprimento_um):
         for i_dois in nb.prange(comprimento_dois):
-            distancias[i_um, i_dois] = _calcula_distancia_entre_observacoes(grupo_um[i_um], grupo_dois[i_dois])
+            distancias[i_um, i_dois] = _calcula_distancia_entre_observacoes(grupo_um[i_um, :], grupo_dois[i_dois, :])
 
     return distancias
 
@@ -148,7 +168,7 @@ def arredonda_matriz(*, matriz, casas_decimais):
 # noinspection SpellCheckingInspection
 @nb.jit(nopython=True, parallel=True)
 def _arredonda_matriz(matriz, casas_decimais):
-    vetor = matriz.ravel()
+    vetor = matriz.copy().ravel()
     comprimento = vetor.shape[0]
 
     for i in nb.prange(comprimento):
@@ -189,11 +209,12 @@ def centraliza_centroides(*, dados, centroides, centroides_fixos, rotulos):
 @nb.jit(nopython=True, parallel=True)
 def _centraliza_centroides(dados, centroides, centroides_fixos, rotulos):
     rotulos_unicos = np.unique(rotulos)[np.logical_not(centroides_fixos)]
-    numero_de_centroides, dimensionalidade = rotulos_unicos.shape[0], dados.shape[1]
+    numero_de_rotulos = rotulos_unicos.shape[0]
+    numero_de_centroides, dimensionalidade = centroides.shape
     centroides_centralizados = np.empty((numero_de_centroides, dimensionalidade))
     centroides_centralizados[centroides_fixos, :] = centroides[centroides_fixos, :]
 
-    for r in nb.prange(numero_de_centroides):
+    for r in nb.prange(numero_de_rotulos):
         rotulo = rotulos_unicos[r]
         membros_do_cluster = np.where(rotulos == rotulo)[0]
         cluster = dados[membros_do_cluster, :]

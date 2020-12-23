@@ -1,39 +1,58 @@
 import numpy as np
+import pandas as pd
 import seaborn as sns
-
-from sklearn import datasets
 
 from kmeans import KMeans
 from kmeans.caixinha import rotula_dados
 from matplotlib import pyplot as plt
+from time import sleep
 
 
 # noinspection SpellCheckingInspection
 def gerar_grafico_de_dispersao(centroides, dados):
     rotulos = rotula_dados(dados=dados, centroides=centroides)
 
-    # calculated_centroid = centralize_clustering(a_clustering, labels, data)
-
-    figure, axis = plt.subplots(1, 1)
+    figura, eixo = plt.subplots(1, 1)
 
     sns.scatterplot(x=dados[:, 0], y=dados[:, 1],
-                    palette=sns.color_palette("bright", np.unique(rotulos).size), hue=rotulos, ax=axis)
+                    palette=sns.color_palette("bright", np.unique(rotulos).size), hue=rotulos, ax=eixo)
 
-    axis.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+    eixo.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 
-    axis.scatter(x=centroides[:, 0], y=centroides[:, 1], c='k', marker='s')
-    # axis.scatter(x=calculated_centroid[:, 0], y=calculated_centroid[:, 1], c='k', marker='x')
+    eixo.scatter(x=centroides[:, 0], y=centroides[:, 1], c='k', marker='s')
 
-    figure.show()
+    return figura, eixo
 
 
-X, _ = datasets.load_iris(return_X_y=True)
+# noinspection SpellCheckingInspection
+caminho_para_os_dados = "../dados/coordenadas_bairros.csv"
+
+# noinspection SpellCheckingInspection
+dados = pd.read_csv(caminho_para_os_dados, index_col=0)
+
+# noinspection SpellCheckingInspection
+dados["Latitude"] = dados["Coordenadas"].apply(lambda x: x.split(", ")[0])
+# noinspection SpellCheckingInspection
+dados["Longitude"] = dados["Coordenadas"].apply(lambda x: x.split(", ")[1])
+
+# noinspection SpellCheckingInspection
+dados.drop("Coordenadas", axis=1, inplace=True)
+dados.infer_objects()
+
+dados["Latitude"] = pd.to_numeric(dados["Latitude"])
+dados["Longitude"] = pd.to_numeric(dados["Longitude"])
+
+# noinspection SpellCheckingInspection
+aeroporto = dados.loc["Aeroporto", ["Latitude", "Longitude"]].to_numpy().reshape(1, -1)
+# noinspection SpellCheckingInspection
+bairros = dados.drop("Aeroporto").to_numpy()
 
 while True:
-    k_means = KMeans(numero_de_centroides=3)
-
+    print("Começou:")
+    k_means = KMeans(numero_de_centroides=4)
     # noinspection SpellCheckingInspection
-    centroides_encontrados = k_means.clusteriza(dados=X, centroides_fixos=None)
+    centroides = k_means.clusteriza(dados=bairros, centroides_fixos=aeroporto)
+    figura, eixo = gerar_grafico_de_dispersao(centroides, bairros)
 
-    gerar_grafico_de_dispersao(centroides_encontrados, X)
-
+    eixo.scatter(aeroporto[0, 0], aeroporto[0, 1], s=150, c="indigo")
+    figura.show()
