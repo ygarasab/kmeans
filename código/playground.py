@@ -8,8 +8,9 @@ from kmedias import KMedias, operadores
 
 from dask.distributed import Client, as_completed
 
+
 # noinspection SpellCheckingInspection
-def gerar_grafico_de_dispersao(centroides, dados):
+def gera_grafico_de_dispersao(centroides, dados):
     rotulos = operadores.rotula_dados(dados=dados, centroides=centroides)
 
     figura, eixo = plt.subplots(1, 1)
@@ -54,7 +55,7 @@ bairros = dados.drop("Aeroporto").to_numpy()
 # noinspection SpellCheckingInspection
 # centroides = solucoes.iloc[0, 0]
 # noinspection SpellCheckingInspection
-# figura, eixo = gerar_grafico_de_dispersao(centroides, bairros)
+# figura, eixo = gera_grafico_de_dispersao(centroides, bairros)
 
 # eixo.scatter(aeroporto[0, 0], aeroporto[0, 1], s=150, c="indigo")
 # figura.show()
@@ -90,7 +91,7 @@ if __name__ == "__main__":
 
     solucoes = clusteriza_em_paralelo(dados=bairros, numero_de_centroides=4, centroide_fixo=aeroporto, cliente=cliente)
     centroides = solucoes.iloc[0, 0]
-    figura, eixo = gerar_grafico_de_dispersao(centroides, bairros)
+    figura, eixo = gera_grafico_de_dispersao(centroides, bairros)
 
     eixo.scatter(aeroporto[0, 0], aeroporto[0, 1], s=150, c="indigo")
     figura.show()
