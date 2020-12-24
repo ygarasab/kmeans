@@ -45,11 +45,11 @@ def gera_grafico_de_dispersao(*, dados, centroides=None):
     figura.tight_layout()
 
     sns.scatterplot(
-        x=dados[:, 0], y=dados[:, 1], palette=sns.color_palette("bright", np.unique(rotulos).size), hue=rotulos, ax=eixo
+        x=dados[:, 1], y=dados[:, 0], palette=sns.color_palette("bright", np.unique(rotulos).size), hue=rotulos, ax=eixo
     )
 
-    eixo.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.0)
-    eixo.scatter(x=centroides[:, 0], y=centroides[:, 1], c="k", marker="s")
+    eixo.legend(bbox_to_anchor=(1, 1.05), loc=2, borderaxespad=0.0)
+    eixo.scatter(x=centroides[:, 1], y=centroides[:, 0], c="k", marker="s")
 
     return figura, eixo
 
@@ -63,27 +63,27 @@ def gera_graficos_de_dispersao(*, dados, melhor_solucao, pior_solucao):
     figura.tight_layout()
 
     sns.scatterplot(
-        x=dados[:, 0],
-        y=dados[:, 1],
+        x=dados[:, 1],
+        y=dados[:, 0],
         palette=sns.color_palette("bright", np.unique(rotulos_da_melhor_solucao).size),
         hue=rotulos_da_melhor_solucao,
         ax=eixos[0],
         legend=False
     )
 
-    eixos[0].scatter(x=melhor_solucao[:, 0], y=melhor_solucao[:, 1], c="k", marker="s")
+    eixos[0].scatter(x=melhor_solucao[:, 1], y=melhor_solucao[:, 0], c="k", marker="s")
     eixos[0].set_title("Melhor solução")
 
     sns.scatterplot(
-        x=dados[:, 0],
-        y=dados[:, 1],
+        x=dados[:, 1],
+        y=dados[:, 0],
         palette=sns.color_palette("bright", np.unique(rotulos_da_pior_solucao).size),
         hue=rotulos_da_pior_solucao,
         ax=eixos[1],
         legend=False
     )
 
-    eixos[1].scatter(x=pior_solucao[:, 0], y=pior_solucao[:, 1], c="k", marker="s")
+    eixos[1].scatter(x=pior_solucao[:, 1], y=pior_solucao[:, 0], c="k", marker="s")
     eixos[1].set_title("Pior solução")
 
     return figura, eixos
