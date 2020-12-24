@@ -5,6 +5,8 @@
 \usepackage[brazil]{babel} 
 \usepackage[utf8]{inputenc}
 \usepackage{comment}
+\usepackage{url}
+
 
      
 \sloppy
@@ -33,8 +35,17 @@
 
 
 \section{Introdução}
-- falar do problema dado;
-- falar do algoritmo k-means e porque escolhemos ele;
+A cidade de Belém, capital paraense, é o segundo munícipio mais populoso da região Norte do Brasil \cite{ibge}. Possuindo 71 bairros divididos em distritos administrativos \cite{belemwiki}, a cidade possui apenas um aeroporto, o Aeroporto Internacional Val-de-Cans. Contudo, em vista da grande demanda de viagens no estado, fez-se necessária a construção de mais três aeroportos para atender de forma igualitária os bairros da cidade, considerando - devido à maior demografia - apenas cinco dos oito distritos: de Belém; do Entroncamento; do Guamá; do Benguí; da Sacramenta. Para realizar a construção, entretanto, é necessário saber a melhor localização para os aeroportos.
+
+Para esse problema, alguns critérios foram considerados: cada novo aeroporto deve atender a pelo menos um bairro e ao máximo de bairros próximos a ele; a distância total dos bairros para os aeroportos deve ser mínima no intuito de evitar o desperdício de recursos; a localização do aeroporto Val-de-Cans também deve ser considerada. Diante desse cenário, nota-se que o prolema pode ser resolvido por meio da clusterização - uma técnica de aprendizado não-supervisionado que realiza o agrupamento de dados de acordo com características em comum. Nesse caso, os bairros que possuem as menores distâncias em relação a certo aeroporto serão agrupados em um \textit{cluster}, de forma que o centróide desse seja a localização do aeroporto a ser construído.
+
+Considerando as informações levantadas, escolheu-se o algoritmo \textit{k-means} para realizar a clusterização. Esse método foi considerado ideal devido à utilização de centróides, cujos valores são atualizados no decorrer da execução, ao redor dos quais as amostras são agrupadas baseadas na distância delas do \textit{cluster}. Além disso, o fato do valor de \textit {k} (4) ser conhecido e os dados serem do tipo real também fizeram com que a escolha convergisse para esse método.
+
+Diante do exposto, as seções subsequentes estão divididas da seguinte forma: a seção 2 apresenta uma descrição da base de dados construída; a seção 3 descreve o processo de realização do trabalho; a seção 4 apresenta os resultados da aplicação do algoritmo; por fim, a seção 5 sintetiza o trabalho e apresenta as considerações finais.
+
+% fonte bairros: http://www.belem.pa.gov.br/segep/download/mapas/bairros/bairros_index.htm
+%0 - https://agenciadenoticias.ibge.gov.br/media/com_mediaibge/arquivos/7d410669a4ae85faf4e8c3a0a0c649c7.pdf -  Instituto Brasileiro de Geografia e Estatística (IBGE). 1 de julho de 2019. Consultado em 25 de dezembro de 2019
+
 
 
 
