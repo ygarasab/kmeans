@@ -59,24 +59,6 @@ def verifica_igualdade_aproximada_entre_grupos(grupo_um, grupo_dois, casas_decim
 
 # noinspection SpellCheckingInspection
 @nb.jit(nopython=True, parallel=True)
-def centraliza_centroides(dados, centroides, centroides_fixos, rotulos):
-    numero_de_centroides, dimensionalidade = centroides.shape
-    rotulos_unicos = np.arange(numero_de_centroides)[np.logical_not(centroides_fixos)]
-    numero_de_rotulos = rotulos_unicos.shape[0]
-    centroides_centralizados = np.empty((numero_de_centroides, dimensionalidade))
-    centroides_centralizados[centroides_fixos, :] = centroides[centroides_fixos, :]
-
-    for r in nb.prange(numero_de_rotulos):
-        rotulo = rotulos_unicos[r]
-        membros_do_agrupamento = np.where(rotulos == rotulo)[0]
-        agrupamento = dados[membros_do_agrupamento, :]
-        centroides_centralizados[rotulo, :] = tira_media_das_colunas(agrupamento)
-
-    return centroides_centralizados
-
-
-# noinspection SpellCheckingInspection
-@nb.jit(nopython=True, parallel=True)
 def tira_media_das_colunas(dados):
     dimensionalidade = dados.shape[1]
     media_das_colunas_dos_dados = np.empty(shape=dimensionalidade)
