@@ -63,8 +63,8 @@ def gera_graficos_de_dispersao(*, dados, melhor_solucao, pior_solucao):
     figura.tight_layout()
 
     sns.scatterplot(
-        x=dados[:, 1],
-        y=dados[:, 0],
+        x=dados[:, 0],
+        y=dados[:, 1],
         palette=sns.color_palette("bright", np.unique(rotulos_da_melhor_solucao).size),
         hue=rotulos_da_melhor_solucao,
         ax=eixos[0],
@@ -75,8 +75,8 @@ def gera_graficos_de_dispersao(*, dados, melhor_solucao, pior_solucao):
     eixos[0].set_title("Melhor solução")
 
     sns.scatterplot(
-        x=dados[:, 1],
-        y=dados[:, 0],
+        x=dados[:, 0],
+        y=dados[:, 1],
         palette=sns.color_palette("bright", np.unique(rotulos_da_pior_solucao).size),
         hue=rotulos_da_pior_solucao,
         ax=eixos[1],
@@ -100,15 +100,15 @@ if __name__ == "__main__":
 
     for data_frame in [aeroporto, bairros]:
         # noinspection SpellCheckingInspection
-        data_frame["Latitude"] = data_frame["Coordenadas"].apply(lambda x: x.split(", ")[0])
-        # noinspection SpellCheckingInspection
         data_frame["Longitude"] = data_frame["Coordenadas"].apply(lambda x: x.split(", ")[1])
+        # noinspection SpellCheckingInspection
+        data_frame["Latitude"] = data_frame["Coordenadas"].apply(lambda x: x.split(", ")[0])
 
         # noinspection SpellCheckingInspection
         data_frame.drop("Coordenadas", axis=1, inplace=True)
 
-        data_frame["Latitude"] = pd.to_numeric(data_frame["Latitude"])
         data_frame["Longitude"] = pd.to_numeric(data_frame["Longitude"])
+        data_frame["Latitude"] = pd.to_numeric(data_frame["Latitude"])
 
     # noinspection SpellCheckingInspection
     aeroporto, bairros = aeroporto.to_numpy(), bairros.to_numpy()
