@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.10.27)  25 DEC 2020 20:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.10.27)  26 DEC 2020 15:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -462,23 +462,26 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `phv' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [2 <./figures/base_de_dados.pdf>]
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 8
 9.
- (c:/texlive/2020/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+(c:/texlive/2020/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `pcr' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-<figures/resultados.pdf, id=121, 1460.21388pt x 716.19443pt>
+ [2]
+<figures/resultados.pdf, id=58, 1460.21388pt x 716.19443pt>
 File: figures/resultados.pdf Graphic file (type pdf)
 <use figures/resultados.pdf>
-Package pdftex.def Info: figures/resultados.pdf  used on input line 113.
+Package pdftex.def Info: figures/resultados.pdf  used on input line 111.
 (pdftex.def)             Requested size: 426.79135pt x 209.33029pt.
- [3]
-(./sbc-template.bbl
+ [3 <./figures/base_de_dados.pdf>] (./sbc-template.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 4--8
 \OT1/pcr/m/n/12 mediaibge / arquivos / 7d410669a4ae85faf4e8c3a0a0c649c7 . pdf$[
 ]\OT1/ptm/m/n/12 (+20) .
@@ -494,13 +497,13 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 10134 strings out of 479917
- 161131 string characters out of 5886664
- 523716 words of memory out of 5000000
+ 10128 strings out of 479917
+ 161077 string characters out of 5886664
+ 522716 words of memory out of 5000000
  26401 multiletter control sequences out of 15000+600000
- 561466 words of font info for 148 fonts, out of 8000000 for 9000
+ 561146 words of font info for 144 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 80i,10n,85p,866b,452s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 80i,10n,85p,870b,454s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/texlive/2020/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2020/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb><c:/texlive/2020/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2020/texmf-dist/fonts/type1/
@@ -510,13 +513,10 @@ fb><c:/texlive/2020/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb><c:/texlive/
 2020/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2020/texmf-dist/fo
 nts/type1/urw/times/utmbi8a.pfb><c:/texlive/2020/texmf-dist/fonts/type1/urw/tim
 es/utmr8a.pfb><c:/texlive/2020/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on sbc-template.pdf (5 pages, 152604 bytes).
+Output written on sbc-template.pdf (5 pages, 153022 bytes).
 PDF statistics:
  218 PDF objects out of 1000 (max. 8388607)
  112 compressed objects within 2 object streams
  15 named destinations out of 1000 (max. 500000)
- 19507 words of extra memory for PDF output out of 20736 (max. 10000000)
-
-inations out of 1000 (max. 500000)
  19507 words of extra memory for PDF output out of 20736 (max. 10000000)
 
