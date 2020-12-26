@@ -1,5 +1,5 @@
 # K-Means
-Implementação do método de clusterização K-Means, proposto na disciplina Inteligência Artificial ministrada pelo prof. Dr. Reginaldo Cosob o curso de Bacharelo em Ciência da Computação na Universidade Federal do Pará.
+Implementação do método de clusterização K-Means, proposto na disciplina Inteligência Artificial ministrada pelo prof. Dr. Reginaldo Cordeiro dos Santos Filho sob o curso de Bacharelado em Ciência da Computação na Universidade Federal do Pará.
 
 Integrantes da equipe:
 - Eduardo Gil Serrão Cardoso - [@ygarasab](https://github.com/ygarasab)
