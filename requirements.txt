@@ -1,4 +1,4 @@
-dask==2.19.0
+dask[complete]==2.19.0
 ipypublish==0.10.12
 matplotlib==3.3.2
 numba==0.52.0
